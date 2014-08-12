@@ -1,0 +1,29 @@
+{
+    "name": "xiaohutai/bolt-RelatedContentByTags",
+    "description": "",
+    "type": "bolt-extension",
+    "keywords": ["taxonomy", "tags"],
+    "require": {
+        "bolt/bolt": ">1.0,<2.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xiao-Hu Tai",
+            "email": "xiao@twokings.nl"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "init.php"
+        ],
+        "psr-4": {
+            "RelatedContentByTags\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.7.*"
+        }
+    }
+}
