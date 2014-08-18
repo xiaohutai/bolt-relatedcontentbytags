@@ -4,7 +4,7 @@
     "type": "bolt-extension",
     "keywords": ["taxonomy", "tags"],
     "require": {
-        "bolt/bolt": ">=1.0,<3.0.0"
+        "bolt/bolt": "2.*.*"
     },
     "license": "MIT",
     "authors": [
