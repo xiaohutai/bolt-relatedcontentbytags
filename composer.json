@@ -1,5 +1,5 @@
 {
-    "name": "xiaohutai/bolt-RelatedContentByTags",
+    "name": "xiaohutai/bolt-relatedcontentbytags",
     "description": "",
     "type": "bolt-extension",
     "keywords": ["taxonomy", "tags"],
