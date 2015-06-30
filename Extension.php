@@ -114,9 +114,9 @@ class Extension extends \Bolt\BaseExtension
             $subqueryWhere = array();
 
             foreach( $values as $word ) {
-                $subqueryWhere[] = sprintf('%s.slug = "%s"', $taxonomyTable, $word);
+                $subqueryWhere[] = sprintf("%s.slug = '%s'", $taxonomyTable, $word);
             }
-            $temp  = sprintf( '%s.taxonomytype = "%s"', $taxonomyTable, $tagName );
+              $temp  = sprintf( "%s.taxonomytype = '%s'", $taxonomyTable, $tagName );
             $temp .= sprintf( ' AND (%s)', implode(' OR ', $subqueryWhere) );
             $queryWhere[] = $temp;
 
@@ -140,14 +140,14 @@ class Extension extends \Bolt\BaseExtension
 
             $table        = sprintf('%s%s', $tablePrefix, $name);
             $querySelect  = '';
-            $querySelect .= sprintf('SELECT %s.id FROM %s', $table, $table);
+            $querySelect .= sprintf(' SELECT %s.id FROM %s', $table, $table);
             $querySelect .= sprintf(' LEFT JOIN %s', $taxonomyTable);
             $querySelect .= sprintf(' ON %s.id = %s.content_id', $table, $taxonomyTable);
-            $querySelect .= sprintf(' WHERE %s.status = "published"', $table);
+            $querySelect .= sprintf(" WHERE %s.status = 'published'", $table);
             if ($name == $record->contenttype['slug']) {
                 $querySelect .= sprintf('AND %s.id != '. $record->id, $table);
             }
-            $querySelect .= sprintf(' AND %s.contenttype = "%s"', $taxonomyTable, $name);
+            $querySelect .= sprintf(" AND %s.contenttype = '%s'", $taxonomyTable, $name);
             $querySelect .= sprintf(' AND (%s)', $queryWhere);
 
             $queryResults = $app['db']->fetchAll( $querySelect );
@@ -235,7 +235,7 @@ class Extension extends \Bolt\BaseExtension
             // less difference is more important
             return -1;
         }
-        if ($a->diff > $b->diff) { 
+        if ($a->diff > $b->diff) {
             // more difference is less important
             return +1;
         }
