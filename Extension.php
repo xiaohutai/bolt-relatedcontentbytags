@@ -126,6 +126,10 @@ class Extension extends \Bolt\BaseExtension
         // Get all contenttypes (database tables) that have a similar behaves-like-tags taxonomies like $record
         $tables = array();
         foreach ( $contenttypes as $key => $contenttype ) {
+            if (empty($contenttype['taxonomy'])) {
+                continue;
+            }
+
             foreach( $contenttype['taxonomy'] as $taxonomyKey ) {
                 if (in_array( $taxonomyKey, $tagsTaxonomies )) {
                     $tables[] = $contenttype['slug'];
