@@ -9,7 +9,7 @@ Usage
 
 Default usage:
 
-    {{ relatedcontentbytype(record) }}
+    {{ relatedcontentbytags(record) }}
 
 Add options for more flexibility:
 
