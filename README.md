@@ -34,6 +34,7 @@ Add the following in your template for a simple example.
         <p><a href="{{ item.link }}">{{ item.title|e }}</a></p>
     {% endfor %}
 
+Similarity score is also accessible by `{{ item.similarity }}`
 
 Options
 -------

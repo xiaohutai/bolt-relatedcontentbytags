@@ -1,10 +1,13 @@
 {
     "name": "xiaohutai/bolt-relatedcontentbytags",
-    "description": "",
+    "description": "Retrieves a list of similar content based on tags.",
     "type": "bolt-extension",
     "keywords": ["taxonomy", "tags"],
     "require": {
-        "bolt/bolt": ">=2.0.0,<3.0.0"
+        "bolt/bolt": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7"
     },
     "license": "MIT",
     "authors": [
@@ -13,17 +16,20 @@
             "email": "xiao@twokings.nl"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
-        "files": [
-            "init.php"
-        ],
         "psr-4": {
-            "RelatedContentByTags\\": ""
+            "Bolt\\Extension\\Xiaohutai\\RelatedContentByTags\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bolt\\Extension\\Xiaohutai\\RelatedContentByTags\\Tests\\": "tests",
+            "Bolt\\Tests\\": "vendor/bolt/bolt/tests/phpunit/unit/"
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.7.*"
-        }
+        "bolt-class": "Bolt\\Extension\\Xiaohutai\\RelatedContentByTags\\RelatedContentByTagsExtension"
     }
 }
