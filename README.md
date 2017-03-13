@@ -9,17 +9,17 @@ Usage
 
 Default usage:
 
-    {{ relatedcontentbytags(record) }}
+    {% set related = relatedcontentbytags(record) %}
 
 Add options for more flexibility:
 
-    {{ relatedcontentbytags(record, { 'limit' : 5, 'pointsTag' : 5, 'pointsType': 100 }) }}
+    {% set related = relatedcontentbytags(record, { 'limit' : 5, 'pointsTag' : 5, 'pointsType': 100 }) %}
 
 Default values are defined in `config.yml`. Use these options to override these settings.
 
 By default, this extensions searches through all available contenttypes. Use `contenttypes` in `options` to filter specific contenttypes:
 
-    {{ relatedcontentbytags(record, { 'contenttypes' : ['kitchensinks', 'snippets', '' ] }) }}
+    {% set related = relatedcontentbytags(record, { 'contenttypes' : ['kitchensinks', 'snippets', '' ] }) %}
 
 Non-existing contenttypes will be ignored.
 
