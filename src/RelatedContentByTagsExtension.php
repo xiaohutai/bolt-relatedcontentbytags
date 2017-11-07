@@ -6,6 +6,9 @@ use Bolt\Extension\SimpleExtension;
 
 /**
  * RelatedContentByTags extension class.
+ *
+ * @author Xiao-Hu Tai (github.com/xiaohutai)
+ * @author Nicolas Béhier-Dévigne (github.com/nbehier)
  */
 class RelatedContentByTagsExtension extends SimpleExtension
 {
@@ -52,7 +55,7 @@ class RelatedContentByTagsExtension extends SimpleExtension
      *
      * @return array Returns an array with the elements sorted by similarity.
      */
-    function relatedContentByTags($record, $options = array())
+    function relatedContentByTags($record, $options = [])
     {
         $app          = $this->getContainer();
         $config       = $this->getConfig();
@@ -61,12 +64,12 @@ class RelatedContentByTagsExtension extends SimpleExtension
         $filter       = isset($options['contenttypes']) ? $options['contenttypes'] : false;
 
         // Get all taxonomies that behave like tags and their values from $record.
-        $tagsValues     = array();
-        $tagsTaxonomies = array();
+        $tagsValues     = [];
+        $tagsTaxonomies = [];
 
         // If no taxonomies exist, then no matching items exist
         if (!isset( $record->contenttype['taxonomy'])) {
-            return array();
+            return [];
         }
         foreach ( $record->contenttype['taxonomy'] as $key ) {
             if ($app['config']->get('taxonomy/'.$key.'/behaves_like') == 'tags') {
@@ -79,7 +82,7 @@ class RelatedContentByTagsExtension extends SimpleExtension
         }
 
         // Get all contenttypes (database tables) that have a similar behaves-like-tags taxonomies like $record
-        $results = array();
+        $results = [];
         foreach ($contenttypes as $contentType) {
 
             // Keep contentType if non-filtered by options
@@ -130,7 +133,7 @@ class RelatedContentByTagsExtension extends SimpleExtension
 
             if (!empty($queryResults)) {
                 $ids      = implode(' || ', \utilphp\util::array_pluck($queryResults, 'id'));
-                $contents = $app['storage']->getContent($contentType['slug'], array('id' => $ids, 'returnsingle' => false));
+                $contents = $app['storage']->getContent($contentType['slug'], ['id' => $ids, 'returnsingle' => false]);
                 $results  = array_merge( $results,  $contents );
             }
         }
@@ -144,7 +147,7 @@ class RelatedContentByTagsExtension extends SimpleExtension
         }
 
         // Sort results
-        usort($results, array($this, 'compareSimilarity'));
+        usort($results, [$this, 'compareSimilarity']);
 
         // Limit results
         $results = array_slice($results, 0, $limit);
@@ -153,7 +156,16 @@ class RelatedContentByTagsExtension extends SimpleExtension
 
     }
 
-    private function calculateTaxonomySimilarity($a, $b, $tagsTaxonomies, $tagsValues, $options = array())
+    /**
+     * @param \Bolt\Content $a
+     * @param \Bolt\Content $b
+     * @param array         $tagsTaxonomies
+     * @param array         $tagsValues
+     * @param array         $options
+     *
+     * @return int
+     */
+    private function calculateTaxonomySimilarity($a, $b, $tagsTaxonomies, $tagsValues, $options = [])
     {
         $config     = $this->getConfig();
         $similarity = 0;
@@ -181,8 +193,17 @@ class RelatedContentByTagsExtension extends SimpleExtension
         return $similarity;
     }
 
-    // smaller difference datepublish  => higher score
-    // e.g. news article in the same period is more similar than other articles
+    /**
+     * Calculates the difference in seconds between two Bolt records.
+     *
+     * A smaller difference in 'datepublish' implies a higher score, e.g. a news
+     * article around the same period is more similar than others.
+     *
+     * @param \Bolt\Content $b
+     * @param \Bolt\Content $a
+     *
+     * @return int
+     */
     private function calculatePublicationDiff($a, $b)
     {
         $t1   = \DateTime::createFromFormat( 'Y-m-d H:i:s', $a->values['datepublish'] );
@@ -192,6 +213,14 @@ class RelatedContentByTagsExtension extends SimpleExtension
         return $diff;
     }
 
+    /**
+     * Compares two Bolt records for sorting.
+     *
+     * @param \Bolt\Content $a
+     * @param \Bolt\Content $b
+     *
+     * @return int
+     */
     private function compareSimilarity($a, $b)
     {
         if ($a->similarity > $b->similarity) {
